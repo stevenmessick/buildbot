@@ -288,10 +288,7 @@ class P4Source(base.PollingChangeSource, util.ComparableMixin):
             except UnicodeError as ex:
                 log.msg(
                     "P4Poller: couldn't decode changelist description: %s" % ex.encoding)
-                log.msg("P4Poller: in object: %s" % ex.object)
-                log.err("P4Poller: poll failed on %s, %s" %
-                        (self.p4port, self.p4base))
-                raise
+                result = bytes2unicode(result, encoding=self.encoding, errors="replace")
 
             lines = result.split('\n')
             # SF#1555985: Wade Brainerd reports a stray ^M at the end of the date
